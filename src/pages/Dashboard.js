@@ -18,21 +18,17 @@ const Dashboard = () => {
 
   const status = 5;
   const show = "";
-  // const amount = 1000;
-  // const id = "";
-  // const search = "Credit Wallet Transaction";
-  // const transact = async () => {
-  //   const res = await getDataApi(
-  //     `admin-transactions?search=${search}`,
-  //     auth.token
-  //   );
-  //   console.log(res);
-  // };
+  const pageNumber = 1;
+  const id = "";
+  const amount = "";
+  const title = "";
 
   useEffect(() => {
     dispatch(profile(auth.token));
     dispatch(getDashboard(auth.token));
-    dispatch(getTransaction(auth.token, status, show));
+    dispatch(
+      getTransaction(auth.token, status, show, pageNumber, id, amount, title)
+    );
     // transact();
   }, [dispatch]);
 
