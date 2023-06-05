@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+
+:root {
+    --primary: #D9D9D9;
+    --secondary: #0A5438;
+  }
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary) var(--primary);
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: var(--primary);
+    border-radius: 0px;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--secondary);
+    border-radius: 50px;
+    border: 0px solid var(--primary);
+  }
+
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .my-table-spacing {
+    border-spacing: theme("spacing.3");
+  }
+}
+
+@layer utilities {
+  td,
+  th {
+    @apply my-[8px] px-[20px];
+  }
+
+  .body td {
+    @apply py-[16px]
+  }
+
+thead td {
+  @apply py-[10px]
+}
+
+/* td div {
+  @apply my-[10px]
+} */
+}
+
+@import url("./styles/loading.css");
+
+@layer utilities {
+    @variants responsive {
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
+    }
+  }
