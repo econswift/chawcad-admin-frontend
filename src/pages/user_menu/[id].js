@@ -18,12 +18,12 @@ const User = () => {
 
   const data = user?.user?.data;
 
-  const initial = data?.system_verification === true ? true : false;
+  // const initial = data?.system_verification === true ? true : false;
 
-  useEffect(() => {}, [initial]);
+  // useEffect(() => {}, [initial]);
 
   const [switch1, setSwitch1] = useState(false);
-  const [switch2, setSwitch2] = useState(initial);
+  const [switch2, setSwitch2] = useState(false);
   const [files, setFiles] = useState(null);
 
   const [name, setName] = useState(null);
@@ -91,7 +91,7 @@ const User = () => {
     if (files) {
       dispatch(postDocument(auth.token, id, files));
     }
-    dispatch(toggleActivation(auth.token, id, switch1, switch2));
+    dispatch(toggleActivation(auth.token, id, switch2));
     dispatch(getOneUser(auth.token, id));
   };
 
@@ -416,7 +416,7 @@ const User = () => {
                     //   value={email}
                   />
                 </div>
-                <div className="flex mt-[30px]">
+                {/* <div className="flex mt-[30px]">
                   <div
                     onClick={() => setSwitch1(!switch1)}
                     className={
@@ -439,7 +439,7 @@ const User = () => {
                       Activate or deactivate the user account
                     </h4>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="flex mt-[40px]">
                   <div

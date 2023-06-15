@@ -32,29 +32,28 @@ export const postDocument = (token, id, file) => async (dispatch) => {
   }
 };
 
-export const toggleActivation =
-  (token, id, switch1, switch2) => async (dispatch) => {
-    try {
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+export const toggleActivation = (token, id, switch2) => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
 
-      const res = await putDataApi(
-        `admin-users/${id}`,
-        { system_verification: switch2 },
-        token
-      );
+    const res = await putDataApi(
+      `admin-users/${id}`,
+      { system_verification: switch2 },
+      token
+    );
 
-      dispatch({
-        type: GLOBALTYPES.POST_SUCCESS,
-        payload: res,
-      });
+    dispatch({
+      type: GLOBALTYPES.POST_SUCCESS,
+      payload: res,
+    });
 
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
-    } catch (err) {
-      dispatch({
-        type: GLOBALTYPES.POST_FAILURE,
-        payload: {
-          error: err.message,
-        },
-      });
-    }
-  };
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.POST_FAILURE,
+      payload: {
+        error: err.message,
+      },
+    });
+  }
+};
