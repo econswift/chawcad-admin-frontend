@@ -23,12 +23,22 @@ const Dashboard = () => {
   const amount = "";
   const title = "";
 
+  // const userId = async () => {
+  //   const res = await getDataApi(
+  //     `admin-users/9956b79d-7280-47cb-bb7c-0d501ade30eb
+  //     `,
+  //     auth.token
+  //   );
+  //   console.log(res);
+  // };
+
   useEffect(() => {
     dispatch(profile(auth.token));
     dispatch(getDashboard(auth.token));
     dispatch(
       getTransaction(auth.token, status, show, pageNumber, id, amount, title)
     );
+    // userId();
     // transact();
   }, [dispatch]);
 

@@ -5,6 +5,7 @@ import profile from "./profileReducer";
 import dashboard from "./dashboardReducer";
 import transaction from "./transactionReducer";
 import user from "./userReducer";
+import post from "./postReducer";
 
 export default combineReducers({
   auth,
@@ -13,4 +14,5 @@ export default combineReducers({
   dashboard,
   transaction,
   user,
+  post,
 });
