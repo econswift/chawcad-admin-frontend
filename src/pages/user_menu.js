@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import UserTable from "../components/UserTable";
 import { getUser } from "../redux/actions/userAction";
@@ -7,20 +7,22 @@ import { profile } from "../redux/actions/profileAction";
 import Pagination from "react-js-pagination";
 
 const User_menu = () => {
+  const [search, setSearch] = useState("");
+
   const { auth, user } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const perPage = 10;
 
   const getPage = async (pageNumber) => {
-    dispatch(getUser(auth.token, perPage, pageNumber));
+    dispatch(getUser(auth.token, perPage, pageNumber, search));
   };
 
   useEffect(() => {
     // dispatch(getUser(auth.token));
     dispatch(profile(auth.token));
     getPage();
-  }, [dispatch, auth.token]);
+  }, [dispatch, auth.token, search]);
 
   return (
     <div className="lg:rounded-l-[50px] lg:rounded-tr-[0px] rounded-t-[40px] bg-white w-full md:py-[38px] md:px-[64px] px-[16px] py-[12px]  h-[calc(100vh)] overflow-y-auto overflow-x-auto no-scrollbar">
@@ -34,6 +36,8 @@ const User_menu = () => {
             type="text"
             name="search"
             placeholder="Search anything"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
           />
           <IoSearchOutline className="absolute left-0 top-[6px] text-gray-400 text-[20px]" />
         </div>
@@ -44,7 +48,7 @@ const User_menu = () => {
           Users
         </h4>
         <h4 className="py-[2px] px-[8px] text-primary font-medium bg-lighter rounded-[16px]">
-          100 users
+          {user?.user?.meta?.total} users
         </h4>
       </div>
 

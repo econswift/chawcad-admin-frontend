@@ -4,6 +4,12 @@
     align-items: center;
 }
 
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .loading div{
     
     font-weight: 600;

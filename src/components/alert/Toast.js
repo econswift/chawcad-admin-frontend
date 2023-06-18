@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 function Toast({ msg, handleShow, bgColor, textColor, border }) {
+  const { auth, user, alert } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   setTimeout(() => {
     handleShow();
   }, 3000);
@@ -9,7 +13,7 @@ function Toast({ msg, handleShow, bgColor, textColor, border }) {
       className={` fixed w-full h-full flex justify-center `}
       style={{
         minWidth: "200px",
-        zIndex: 50,
+        zIndex: 100,
         background: "#0007",
         color: "white",
         top: 0,

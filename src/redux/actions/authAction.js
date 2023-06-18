@@ -31,6 +31,30 @@ export const login = (data) => async (dispatch) => {
   }
 };
 
+export const adminSignUp = (data, token) => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+    const res = await postDataApi("admins", data, token);
+    console.log(res);
+
+    // dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        success: "You have created an admin",
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.message,
+        emptyInput: err.response.data.errors,
+      },
+    });
+  }
+};
 //   () =>
 //   async (dispatch) => {
 //     try {

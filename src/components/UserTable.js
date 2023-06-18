@@ -16,8 +16,6 @@ const UserTable = () => {
   const pageNumber = 1;
   const perPage = 10;
 
-  console.log(user);
-
   useEffect(() => {
     dispatch(getUser(auth.token, perPage, pageNumber));
   }, [dispatch, auth.token]);

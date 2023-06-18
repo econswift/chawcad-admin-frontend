@@ -16,6 +16,8 @@ const Dashboard = () => {
   const { auth, dashboard, transaction } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const [search, setSearch] = useState("");
+
   const status = 5;
   const show = "";
   const pageNumber = 1;
@@ -36,11 +38,20 @@ const Dashboard = () => {
     dispatch(profile(auth.token));
     dispatch(getDashboard(auth.token));
     dispatch(
-      getTransaction(auth.token, status, show, pageNumber, id, amount, title)
+      getTransaction(
+        auth.token,
+        status,
+        show,
+        pageNumber,
+        id,
+        amount,
+        title,
+        search
+      )
     );
     // userId();
     // transact();
-  }, [dispatch]);
+  }, [dispatch, search]);
 
   return (
     <div className="lg:rounded-l-[50px] lg:rounded-tr-[0px] rounded-t-[40px] bg-white w-full md:py-[38px] md:px-[64px] px-[16px] py-[12px]  h-[calc(100vh)] overflow-y-auto overflow-x-auto ">
@@ -54,6 +65,8 @@ const Dashboard = () => {
             type="text"
             name="search"
             placeholder="Search anything"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
           />
           <IoSearchOutline className="absolute left-0 top-[6px] text-gray-400 text-[20px]" />
         </div>

@@ -13,8 +13,6 @@ const AdminTable = () => {
   const { user, auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  console.log(user?.user);
-
   useEffect(() => {
     dispatch(getAdmin(auth.token));
   }, [dispatch, auth.token]);
@@ -199,7 +197,7 @@ const AdminTable = () => {
                       <RiDeleteBinLine className="text-[20px]" />
                     </td>
                     <td>
-                      <Link to={`/user_menu/${data.id}`}>
+                      <Link to={`/role_management/${data.id}`}>
                         <FiEdit2 className="text-[20px]" />
                       </Link>
                     </td>

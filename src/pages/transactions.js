@@ -15,6 +15,8 @@ const Transactions = () => {
   const [amount, setAmount] = useState("");
   const [filter, setFilter] = useState(false);
 
+  const [search, setSearch] = useState("");
+
   const { auth, transaction, alert } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -23,14 +25,32 @@ const Transactions = () => {
 
   const getPage = async (pageNumber) => {
     dispatch(
-      getTransaction(auth.token, status, show, pageNumber, id, amount, title)
+      getTransaction(
+        auth.token,
+        status,
+        show,
+        pageNumber,
+        id,
+        amount,
+        title,
+        search
+      )
     );
   };
 
   const pageNumber2 = 1;
   const getFilter = async () => {
     dispatch(
-      getTransaction(auth.token, status, show, pageNumber2, id, amount, title)
+      getTransaction(
+        auth.token,
+        status,
+        show,
+        pageNumber2,
+        id,
+        amount,
+        title,
+        search
+      )
     );
   };
 
@@ -41,10 +61,19 @@ const Transactions = () => {
     getPage();
 
     dispatch(
-      getTransaction(auth.token, status, show2, pageNumber, id, amount, title)
+      getTransaction(
+        auth.token,
+        status,
+        show2,
+        pageNumber,
+        id,
+        amount,
+        title,
+        search
+      )
     );
     dispatch(profile(auth.token));
-  }, [dispatch, auth.token, show2]);
+  }, [dispatch, auth.token, show2, search]);
   return (
     <div className="lg:rounded-l-[50px] lg:rounded-tr-[0px] rounded-t-[40px] bg-white w-full md:py-[38px] md:px-[64px] px-[16px] py-[12px]  h-[calc(100vh)] overflow-y-auto overflow-x-auto no-scrollbar">
       <div className="flex items-center">
@@ -57,6 +86,8 @@ const Transactions = () => {
             type="text"
             name="search"
             placeholder="Search anything"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
           />
           <IoSearchOutline className="absolute left-0 top-[6px] text-gray-400 text-[20px]" />
         </div>
