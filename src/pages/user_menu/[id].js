@@ -9,41 +9,48 @@ import { getOneUser } from "../../redux/actions/userAction";
 import moment from "moment";
 import { postDocument } from "../../redux/actions/postAction";
 import { toggleActivation } from "../../redux/actions/postAction";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import { deleteDocument } from "../../redux/actions/postAction";
+import { getDataApi } from "../../utils/fetchData";
 
 const User = () => {
   const { id } = useParams();
+  const [deleteFile, setDeleteFile] = useState(false);
+  const [getId, setGetId] = useState("");
 
   const { user, auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const data = user?.user?.data;
 
-  // const initial = data?.system_verification === true ? true : false;
+  const document = user?.user?.data?.documents;
 
-  // useEffect(() => {}, [initial]);
-
-  const [switch1, setSwitch1] = useState(false);
-  const [switch2, setSwitch2] = useState(false);
-  const [active, setActive] = useState(false);
+  const [systemVerification, setSystemVerification] = useState(null);
+  const [nationalVerification, setNationalVerification] = useState(null);
+  const [active, setActive] = useState(null);
   const [files, setFiles] = useState(null);
-
-  const [name, setName] = useState(null);
   const [name2, setName2] = useState(null);
 
-  // const toggleSwitch = () => {
-  //   data?.system_verification === true
-  //     ? setSwitch2(switch2)
-  //     : setSwitch2(!switch2);
-  // };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getDataApi(`admin-users/${id}`, auth.token);
 
-  // useEffect(() => {
-  //   setSwitch2(switch2);
-  // }, []);
+        setSystemVerification(response?.data?.data?.system_verification);
+        setNationalVerification(response?.data?.data?.national_verification);
+        setActive(response?.data?.data?.active);
+      } catch (error) {}
+    };
+
+    fetchData();
+  }, [auth.token]);
+
+  const handleDeleteFile = async () => {
+    await dispatch(deleteDocument(getId, auth.token));
+    dispatch(getOneUser(auth.token, id));
+  };
 
   const inputRef = useRef();
-
-  console.log(data?.system_verification);
-  console.log(switch2);
 
   useEffect(() => {
     dispatch(profile(auth.token));
@@ -86,14 +93,35 @@ const User = () => {
     };
   };
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
     setName2("");
     if (files) {
-      dispatch(postDocument(auth.token, id, files));
+      await dispatch(postDocument(auth.token, id, files));
+      dispatch(
+        toggleActivation(
+          auth.token,
+          id,
+          systemVerification,
+          nationalVerification,
+          active
+        )
+      );
+      dispatch(getOneUser(auth.token, id));
+      dispatch(profile(auth.token));
+    } else {
+      dispatch(
+        toggleActivation(
+          auth.token,
+          id,
+          systemVerification,
+          nationalVerification,
+          active
+        )
+      );
+      dispatch(getOneUser(auth.token, id));
+      dispatch(profile(auth.token));
     }
-    dispatch(toggleActivation(auth.token, id, switch1, switch2, active));
-    dispatch(getOneUser(auth.token, id));
   };
 
   return (
@@ -417,22 +445,33 @@ const User = () => {
                     //   value={email}
                   />
                 </div>
+
                 <div className="flex mt-[30px]">
                   <div
                     onClick={() => setActive(!active)}
                     className={
-                      active
+                      active === true
                         ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
                         : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
                     }
                   >
-                    <div
-                      className={`bg-white h-[16px] w-[16px] rounded-full  ${
-                        active
-                          ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
-                          : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
-                      } ease-in-out duration-500`}
-                    ></div>
+                    {active === true ? (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          active === true
+                            ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                            : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    ) : (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          active === false
+                            ? "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                            : "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    )}
                   </div>
                   <div className="ml-[10px]">
                     <h4 className="font-semibold text-primary">Activate</h4>
@@ -442,52 +481,78 @@ const User = () => {
                   </div>
                 </div>
 
-                <div className="flex mt-[40px]">
+                <div className="flex mt-[30px]">
                   <div
-                    onClick={() => setSwitch1(!switch1)}
+                    onClick={() => setSystemVerification(!systemVerification)}
                     className={
-                      switch1
+                      systemVerification === true
                         ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
                         : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
                     }
                   >
-                    <div
-                      className={`bg-white h-[16px] w-[16px] rounded-full  ${
-                        switch1
-                          ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
-                          : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
-                      } ease-in-out duration-500`}
-                    ></div>
+                    {systemVerification === true ? (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          systemVerification === true
+                            ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                            : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    ) : (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          systemVerification === false
+                            ? "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                            : "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    )}
+                  </div>
+                  <div className="ml-[10px]">
+                    <h4 className="font-semibold text-primary">
+                      System verification
+                    </h4>
+                    <h4 className="text-light">
+                      System verification button to verify a user
+                    </h4>
+                  </div>
+                </div>
+
+                <div className="flex mt-[30px]">
+                  <div
+                    onClick={() =>
+                      setNationalVerification(!nationalVerification)
+                    }
+                    className={
+                      nationalVerification === true
+                        ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                        : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                    }
+                  >
+                    {nationalVerification === true ? (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          nationalVerification === true
+                            ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                            : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    ) : (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          nationalVerification === false
+                            ? "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                            : "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    )}
                   </div>
                   <div className="ml-[10px]">
                     <h4 className="font-semibold text-primary">
                       National verification
                     </h4>
-                    <h4 className="text-light">National verification button</h4>
-                  </div>
-                </div>
-
-                <div className="flex mt-[40px]">
-                  <div
-                    onClick={() => setSwitch2(!switch2)}
-                    className={
-                      switch2 === true
-                        ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                        : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                    }
-                  >
-                    <div
-                      className={`bg-white h-[16px] w-[16px] rounded-full  ${
-                        switch2 === true
-                          ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
-                          : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
-                      } ease-in-out duration-500`}
-                    ></div>
-                  </div>
-                  <div className="ml-[10px]">
-                    <h4 className="font-semibold text-primary">Verified</h4>
                     <h4 className="text-light">
-                      Verification button to verify a user
+                      National verification button to verify a user
                     </h4>
                   </div>
                 </div>
@@ -524,7 +589,7 @@ const User = () => {
                         <input
                           type="file"
                           multiple
-                          accept=".png, .jpg, .jpeg, .pdf, .svg, .doc, .gif, .docx"
+                          accept=".png, .jpg, .jpeg, .pdf, .svg, .gif, .doc, .docx"
                           onChange={handleSubmit}
                           name="file"
                           hidden
@@ -563,7 +628,7 @@ const User = () => {
                     </h4>
                   )}
 
-                  <button className=" text-white bg-primary px-[16px] py-[10px] rounded-[8px] mr-[10px]">
+                  <button className=" text-white bg-primary px-[16px] py-[10px] rounded-[8px] ">
                     Save changes
                   </button>
                 </div>
@@ -572,6 +637,70 @@ const User = () => {
           </div>
         </div>
       </form>
+
+      {document?.map((file) => (
+        <div key={file.id} className="mt-[20px] relative">
+          <button
+            onClick={() => {
+              setDeleteFile(!deleteFile);
+              setGetId(file);
+            }}
+            className="absolute bg-red-500 right-[30px] top-[8px] z-30 text-[16px] text-white w-[100px] py-[5px] rounded-[8px] hover:bg-red-600"
+          >
+            Delete
+          </button>
+          <DocViewer
+            documents={[{ uri: file.file_url }]}
+            pluginRenderers={DocViewerRenderers}
+            theme={{
+              primary: "#638B68",
+              secondary: "#ffffff",
+              tertiary: "#0A5438",
+              textPrimary: "#ffffff",
+              textSecondary: "#ffffff",
+              textTertiary: "#00000099",
+              disableThemeScrollbar: false,
+            }}
+          />
+        </div>
+      ))}
+      {deleteFile && (
+        <div
+          className="fixed center w-full h-full"
+          style={{
+            background: "#0007",
+            color: "white",
+            top: 0,
+            left: 0,
+            zIndex: 100,
+          }}
+        >
+          <div className=" justify-center bg-white p-[20px] rounded-[8px]">
+            <div>
+              <h4 className="text-primary">
+                Are you sure you want to delete this file?
+              </h4>
+            </div>
+            <div className="flex justify-between mt-[30px]">
+              <button
+                onClick={() => {
+                  setDeleteFile(!deleteFile);
+                  handleDeleteFile();
+                }}
+                className=" bg-red-500 text-[16px] text-white w-[100px] py-[5px] rounded-[8px] hover:bg-red-600"
+              >
+                Delete file
+              </button>
+              <button
+                onClick={() => setDeleteFile(!deleteFile)}
+                className=" bg-primary text-[16px] text-white w-[100px] py-[5px] rounded-[8px] hover:bg-lime-900"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

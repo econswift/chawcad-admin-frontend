@@ -25,7 +25,7 @@ function Notify() {
 
       {alert.success && (
         <Toast
-          msg={{ title: "Success", body: alert.success }}
+          msg={{ title: "Successful", body: alert.success }}
           handleShow={() => dispatch({ type: GLOBALTYPES.ALERT, payload: {} })}
           bgColor="bg-green-500"
           textColor="text-primary"

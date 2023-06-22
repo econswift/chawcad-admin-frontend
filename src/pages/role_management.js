@@ -103,7 +103,7 @@ const Role_management = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mt-[32px]  md:w-[360px] w-[300px]   ">
                   <input
-                    className=" border border-light w-full placeholder:text-[14px] placeholder:text-light px-[14px] py-[10px] rounded-[8px] outline-primary text-primary focus:bg-lime-50"
+                    className=" border border-light w-full placeholder:text-[14px] placeholder:text-light px-[14px] py-[10px] rounded-[8px] outline-primary text-primary focus:bg-lime-50 capitalize"
                     type="text"
                     name="first_name"
                     id="first_name"
@@ -119,7 +119,7 @@ const Role_management = () => {
                 </h2>
                 <div className="mt-[32px]  md:w-[360px] w-[300px]   ">
                   <input
-                    className=" border border-light w-full placeholder:text-[14px] placeholder:text-light px-[14px] py-[10px] rounded-[8px] outline-primary text-primary focus:bg-lime-50"
+                    className=" border border-light w-full placeholder:text-[14px] placeholder:text-light px-[14px] py-[10px] rounded-[8px] outline-primary text-primary focus:bg-lime-50 capitalize"
                     type="text"
                     name="last_name"
                     id="last_name"
@@ -160,7 +160,7 @@ const Role_management = () => {
                 </h2>
                 <div className="mt-[32px]  md:w-[360px] w-[300px]   ">
                   <input
-                    className=" border border-light w-full placeholder:text-[14px] placeholder:text-light px-[14px] py-[10px] rounded-[8px] outline-primary text-primary focus:bg-lime-50"
+                    className=" border border-light w-full placeholder:text-[14px] placeholder:text-light px-[14px] py-[10px] rounded-[8px] outline-primary text-primary focus:bg-lime-50 lowercase"
                     type="email"
                     name="email"
                     id="email"

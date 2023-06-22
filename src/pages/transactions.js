@@ -173,6 +173,7 @@ const Transactions = () => {
       ) : null}
       <Transaction
         status={10}
+        search={search}
         height="md:h-[calc(70vh-10.75rem)] h-[calc(80vh-10.75rem)]"
       />
       <div

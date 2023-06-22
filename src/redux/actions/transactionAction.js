@@ -4,7 +4,7 @@ import { getDataApi } from "../../utils/fetchData";
 export const getTransaction =
   (token, status, show, pageNumber, id, amount, title, search) =>
   async (dispatch) => {
-    console.log(search);
+    console.log(status, show, pageNumber, id, amount, title, search);
     try {
       const firstLogin = localStorage.getItem("firstLogin");
       dispatch({ type: GLOBALTYPES.TRANSACTION_REQUEST });

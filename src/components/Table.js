@@ -6,7 +6,16 @@ import moment from "moment";
 import { getTransaction } from "../redux/actions/transactionAction";
 import LoadIcon from "../assets/loading.gif";
 
-const Table = ({ show, visible, status, id, amount, title, pageNumber }) => {
+const Table = ({
+  show,
+  visible,
+  status,
+  id,
+  amount,
+  title,
+  pageNumber,
+  search,
+}) => {
   const { transaction, auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -16,9 +25,18 @@ const Table = ({ show, visible, status, id, amount, title, pageNumber }) => {
 
   useEffect(() => {
     dispatch(
-      getTransaction(auth.token, status, show, pageNumber, id, amount, title)
+      getTransaction(
+        auth.token,
+        status,
+        show,
+        pageNumber,
+        id,
+        amount,
+        title,
+        search
+      )
     );
-  }, [dispatch, auth.token]);
+  }, [dispatch, auth.token, search]);
 
   return (
     <div className="">

@@ -1,9 +1,7 @@
 import { GLOBALTYPES } from "./globalTypes";
-import { putDataApi } from "../../utils/fetchData";
+import { putDataApi, deleteDataApi } from "../../utils/fetchData";
 
 export const postDocument = (token, id, file) => async (dispatch) => {
-  console.log(token, id, file);
-
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     // dispatch({
@@ -16,32 +14,39 @@ export const postDocument = (token, id, file) => async (dispatch) => {
       token
     );
 
-    // dispatch({
-    //   type: GLOBALTYPES.CREATE_POST,
-    //   payload: { ...res.data.newPost },
-    // });
+    dispatch({
+      type: GLOBALTYPES.POST_SUCCESS,
+      payload: res,
+    });
 
-    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        success: res.data.data.message,
+      },
+    });
   } catch (err) {
     dispatch({
-      type: GLOBALTYPES.POST_FAILURE,
+      type: GLOBALTYPES.ALERT,
       payload: {
-        error: err,
+        error: err.message,
+        emptyInput: err.response.data.errors,
       },
     });
   }
 };
 
 export const toggleActivation =
-  (token, id, switch1, switch2, active) => async (dispatch) => {
+  (token, id, systemVerification, nationalVerification, active) =>
+  async (dispatch) => {
     try {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
 
       const res = await putDataApi(
         `admin-users/${id}`,
         {
-          system_verification: switch2,
-          national_verification: switch1,
+          system_verification: systemVerification,
+          national_verification: nationalVerification,
           active: active,
         },
         token
@@ -52,7 +57,7 @@ export const toggleActivation =
         payload: res,
       });
 
-      console.log(res);
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
 
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -69,3 +74,27 @@ export const toggleActivation =
       });
     }
   };
+
+export const deleteDocument = (file, token) => async (dispatch) => {
+  dispatch({ type: GLOBALTYPES.DELETE_POST, payload: file });
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
+    const res = await deleteDataApi(`admin-user-documents/${file.id}`, token);
+
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        success: res.data.data.message,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.message,
+        emptyInput: err.response.data.errors,
+      },
+    });
+  }
+};

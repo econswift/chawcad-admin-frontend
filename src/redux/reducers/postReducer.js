@@ -29,6 +29,12 @@ const postReducer = (state = initialStore, action) => {
         post: [],
         error: action.payload,
       };
+
+    case GLOBALTYPES.DELETE_POST:
+      return {
+        ...state,
+        post: action.payload.id,
+      };
     default:
       return state;
   }

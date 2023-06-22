@@ -7,10 +7,14 @@ import { profile } from "../../redux/actions/profileAction";
 import { useParams } from "react-router-dom";
 import { getOneAdmin } from "../../redux/actions/userAction";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import { postDocument } from "../../redux/actions/postAction";
 import { toggleActivation } from "../../redux/actions/postAction";
+import { getDataApi } from "../../utils/fetchData";
 
 const Admin = () => {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const { user, auth } = useSelector((state) => state);
@@ -18,20 +22,30 @@ const Admin = () => {
 
   const data = user?.user?.data;
 
-  // const initial = data?.system_verification === true ? true : false;
+  const [active, setActive] = useState(null);
 
-  // useEffect(() => {}, [initial]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getDataApi(`admin-users/${id}`, auth.token);
+        setActive(response?.data?.data?.active);
+      } catch (error) {}
+    };
 
-  const [switch1, setSwitch1] = useState(false);
+    fetchData();
+  }, [auth.token]);
 
   useEffect(() => {
     dispatch(profile(auth.token));
     dispatch(getOneAdmin(auth.token, id));
   }, [dispatch, auth.token]);
 
+  const verify = true;
+
   const handleSend = (e) => {
     e.preventDefault();
-    //   dispatch(toggleActivation(auth.token, id, switch1));
+    // dispatch(postDocument(auth.token, id, files));
+    dispatch(toggleActivation(auth.token, id, verify, verify, active));
     dispatch(getOneAdmin(auth.token, id));
   };
 
@@ -356,37 +370,53 @@ const Admin = () => {
                     //   value={email}
                   />
                 </div>
-                {/* <div className="flex mt-[30px]">
-              <div
-                onClick={() => setSwitch1(!switch1)}
-                className={
-                  switch1
-                    ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                    : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                }
-              >
-                <div
-                  className={`bg-white h-[16px] w-[16px] rounded-full  ${
-                    switch1
-                      ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
-                      : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
-                  } ease-in-out duration-500`}
-                ></div>
-              </div>
-              <div className="ml-[10px]">
-                <h4 className="font-semibold text-primary">
-                  National verification
-                </h4>
-                <h4 className="text-light">National verification button</h4>
-              </div>
-            </div> */}
+
+                <div className="flex mt-[30px]">
+                  <div
+                    onClick={() => setActive(!active)}
+                    className={
+                      active === true
+                        ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                        : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                    }
+                  >
+                    {active === true ? (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          active === true
+                            ? "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                            : "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    ) : (
+                      <div
+                        className={`bg-white h-[16px] w-[16px] rounded-full  ${
+                          active === false
+                            ? "translate-x-0 absolute top-1/2 transform  -translate-y-1/2 left-[2px]"
+                            : "translate-x-full absolute top-1/2 transform  -translate-y-1/2 left-[6px]"
+                        } ease-in-out duration-500`}
+                      ></div>
+                    )}
+                  </div>
+                  <div className="ml-[10px]">
+                    <h4 className="font-semibold text-primary">Activate</h4>
+                    <h4 className="text-light">
+                      Activate or deactivate the user account
+                    </h4>
+                  </div>
+                </div>
 
                 <div className="flex justify-end mt-[40px]">
-                  <h4 className="border-[2px] border-[#E2EFE4] text-primary px-[16px] py-[10px] rounded-[8px] mr-[15px] font-semibold cursor-pointer">
+                  <h4
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                    className="border-[2px] border-[#E2EFE4] text-primary px-[16px] py-[10px] rounded-[8px] mr-[15px] font-semibold cursor-pointer"
+                  >
                     Cancel
                   </h4>
 
-                  <button className=" text-white bg-primary px-[16px] py-[10px] rounded-[8px] mr-[10px]">
+                  <button className=" text-white bg-primary px-[16px] py-[10px] rounded-[8px] ">
                     Save changes
                   </button>
                 </div>

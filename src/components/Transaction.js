@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Table from "./Table";
 
-const Transaction = ({ height, status }) => {
+const Transaction = ({ height, status, search }) => {
   const Menus = [
     {
       name: "All",
@@ -64,6 +64,7 @@ const Transaction = ({ height, status }) => {
             amount=""
             title=""
             pageNumber={1}
+            search={search}
           />
         )}
         {Menus[active].name === "Succeeded" && (
@@ -75,6 +76,7 @@ const Transaction = ({ height, status }) => {
             amount=""
             title=""
             pageNumber={1}
+            search={search}
           />
         )}
         {Menus[active].name === "Pending" && (
@@ -86,6 +88,7 @@ const Transaction = ({ height, status }) => {
             amount=""
             title=""
             pageNumber={1}
+            search={search}
           />
         )}
         {Menus[active].name === "Paid" && (
@@ -97,6 +100,7 @@ const Transaction = ({ height, status }) => {
             amount=""
             title=""
             pageNumber={1}
+            search={search}
           />
         )}
       </div>
