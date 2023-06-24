@@ -187,7 +187,7 @@ const Dashboard = () => {
           Recent transactions
         </h4>
       </div>
-      <Transaction status={5} />
+      <Transaction status={5} search={search} />
       <NavLink to="/transactions">
         <button className="font-semibold text-primary mt-[15px]">
           View all Transcations
