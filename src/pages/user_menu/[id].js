@@ -645,7 +645,7 @@ const User = () => {
               setDeleteFile(!deleteFile);
               setGetId(file);
             }}
-            className="absolute bg-red-500 right-[30px] top-[8px] z-30 text-[16px] text-white w-[100px] py-[5px] rounded-[8px] hover:bg-red-600"
+            className="absolute bg-red-500 md:right-[30px] right-[10px] md:top-[8px] top-[2px] z-30 md:text-[16px] text-[14px] text-white w-[100px] md:py-[5px] py-[3px] rounded-[8px] hover:bg-red-600"
           >
             Delete
           </button>
