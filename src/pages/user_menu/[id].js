@@ -451,8 +451,8 @@ const User = () => {
                     onClick={() => setActive(!active)}
                     className={
                       active === true
-                        ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                        : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                        ? "bg-primary cursor-pointer relative min-w-[40px]  h-[20px] rounded-full"
+                        : "bg-gray-300 cursor-pointer relative min-w-[40px]  h-[20px] rounded-full"
                     }
                   >
                     {active === true ? (
@@ -486,8 +486,8 @@ const User = () => {
                     onClick={() => setSystemVerification(!systemVerification)}
                     className={
                       systemVerification === true
-                        ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                        : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                        ? "bg-primary cursor-pointer relative min-w-[40px]  h-[20px] rounded-full"
+                        : "bg-gray-300 cursor-pointer relative min-w-[40px]  h-[20px] rounded-full"
                     }
                   >
                     {systemVerification === true ? (
@@ -525,8 +525,8 @@ const User = () => {
                     }
                     className={
                       nationalVerification === true
-                        ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                        : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                        ? "bg-primary cursor-pointer relative min-w-[40px] h-[20px] rounded-full"
+                        : "bg-gray-300 cursor-pointer relative min-w-[40px] h-[20px] rounded-full"
                     }
                   >
                     {nationalVerification === true ? (
@@ -595,7 +595,7 @@ const User = () => {
                           hidden
                           ref={inputRef}
                         />
-                        <h4 className="flex justify-center mt-[4px] text-light">
+                        <h4 className="flex justify-center mt-[4px] text-light text-center px-[10px]">
                           SVG, PNG, JPG or GIF (max. 800x400px)
                         </h4>
                       </div>

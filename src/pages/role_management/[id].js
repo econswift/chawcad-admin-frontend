@@ -376,8 +376,8 @@ const Admin = () => {
                     onClick={() => setActive(!active)}
                     className={
                       active === true
-                        ? "bg-primary cursor-pointer relative w-[40px] h-[20px] rounded-full"
-                        : "bg-gray-300 cursor-pointer relative w-[40px] h-[20px] rounded-full"
+                        ? "bg-primary cursor-pointer relative min-w-[40px]  h-[20px] rounded-full"
+                        : "bg-gray-300 cursor-pointer relative min-w-[40px]  h-[20px] rounded-full"
                     }
                   >
                     {active === true ? (

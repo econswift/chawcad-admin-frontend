@@ -98,7 +98,7 @@ const Role_management = () => {
             <IoCloseOutline className="text-primary text-[40px] " />
           </div>
 
-          <div className="flex justify-center md:h-[calc(80vh-10.75rem)] h-[calc(80vh-10.75rem)] overflow-y-auto overflow-x-hidden">
+          <div className="flex justify-center md:h-[calc(100vh-10.75rem)] h-[calc(100vh-10.75rem)] overflow-y-auto overflow-x-hidden">
             <div>
               <form onSubmit={handleSubmit}>
                 <div className="mt-[32px]  md:w-[360px] w-[300px]   ">
